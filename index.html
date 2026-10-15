@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Class Chat & Homework</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Name Prompt Modal -->
+  <div id="nameModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+    <div class="modal-card">
+      <h2 id="nameModalTitle">Choose a display name</h2>
+      <p class="muted">This name will be shown next to your messages.</p>
+
+      <form id="nameForm" class="modal-form" autocomplete="off">
+        <label class="label" for="nameInput">Display name</label>
+        <input id="nameInput" class="input" type="text" maxlength="32" placeholder="e.g., Jordan" required />
+        <div class="modal-actions">
+          <button id="saveNameBtn" class="btn" type="submit">Continue</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-text">
+          <div class="brand-title">Class Portal</div>
+          <div class="brand-subtitle">
+            Signed in as <span id="displayNameLabel" class="mono">—</span>
+            <button id="changeNameBtn" class="link-btn" type="button" title="Change display name">Change</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- Left / Main panel: Chat -->
+      <section class="panel chat-panel" aria-label="Chat room">
+        <header class="panel-header">
+          <h1 class="panel-title">Chat Room</h1>
+          <div class="panel-meta muted">Realtime · Firebase</div>
+        </header>
+
+        <div id="chatMessages" class="chat-messages" role="log" aria-live="polite" aria-relevant="additions">
+          <!-- Messages injected by app.js -->
+        </div>
+
+        <div class="chat-compose" role="group" aria-label="Message composer">
+          <input
+            id="messageInput"
+            class="input"
+            type="text"
+            placeholder="Type a message…"
+            maxlength="500"
+            autocomplete="off"
+          />
+          <button id="sendBtn" class="btn" type="button">Send</button>
+        </div>
+        <div class="hint muted">Tip: Press <span class="kbd">Enter</span> to send.</div>
+      </section>
+
+      <!-- Right / Sidebar: Assignments -->
+      <aside class="panel sidebar" aria-label="Class assignments and homework">
+        <header class="panel-header">
+          <h2 class="panel-title">Class Assignments &amp; Homework</h2>
+          <div class="panel-meta muted">Updates automatically</div>
+        </header>
+
+        <div id="assignmentsList" class="assignments-list" aria-live="polite">
+          <!-- Assignments injected by app.js -->
+        </div>
+
+        <div class="sidebar-actions">
+          <button id="addAssignmentBtn" class="btn btn-invert" type="button">Add (Admin)</button>
+          <div class="muted small">Admin adds are protected by a simple prompt (editable in <span class="mono">app.js</span>).</div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <noscript>
+    <div class="noscript">
+      This site requires JavaScript to run.
+    </div>
+  </noscript>
+
+  <!-- Firebase Web SDK (ES Modules) -->
+  <script type="module">
+    import "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+  </script>
+
+  <!-- Your app code -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
