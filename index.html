@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
   <title>Class Portal</title>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
-  <!-- Fixed Global Navigation -->
+  <!-- Global Topbar -->
   <header class="topbar" aria-label="Global navigation">
     <button id="backBtn" class="icon-btn left hidden" type="button" aria-label="Back">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <span class="sr-only">Back</span>
     </button>
 
     <div class="topbar-title">
@@ -31,24 +29,25 @@
       </div>
     </div>
 
-    <button id="chatFab" class="icon-btn right" type="button" aria-label="Open chat">
+    <!-- Updated: icon + "Chat" text -->
+    <button id="chatBtn" class="chat-btn" type="button" aria-label="Open chat">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M20 15a4 4 0 0 1-4 4H9l-5 3V7a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v8z"
               fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/>
         <path d="M8 9h8M8 12h6" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
       </svg>
-      <span class="sr-only">Chat</span>
+      <span>Chat</span>
     </button>
   </header>
 
-  <!-- Views Container (multi-view SPA) -->
+  <!-- App Views -->
   <main class="views" id="viewsRoot">
     <!-- HOME -->
     <section class="view active" data-view="home" aria-label="Homepage">
       <div class="view-inner">
         <div class="hero">
           <h1 class="hero-title">Welcome</h1>
-          <p class="hero-sub muted">Choose an option below. Smooth portal navigation + realtime updates.</p>
+          <p class="hero-sub muted">Assignments, requests, and chat in one portal.</p>
         </div>
 
         <div class="home-grid">
@@ -59,22 +58,40 @@
 
           <button id="goContact" class="option-card" type="button">
             <div class="option-title">Contact with Admin</div>
-            <div class="option-sub muted">Send a private request</div>
+            <div class="option-sub muted">Private request (per browser)</div>
           </button>
         </div>
 
-        <div class="blank-block" aria-label="Future announcements block">
-          <!-- Intentionally left empty (5–7 lines space) -->
-        </div>
+        <div class="blank-block" aria-label="Future announcements block"></div>
+
+        <!-- Public Issues / Requests -->
+        <section class="panel" aria-label="Public issues and requests">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Public Issues / Requests</div>
+              <div class="muted small">Everyone can view. Owner can reply &amp; like in Admin Panel.</div>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="issue-compose">
+              <textarea id="issueInput" class="input textarea" rows="3" maxlength="900"
+                        placeholder="Write a public issue/request… (visible to everyone)"></textarea>
+              <div class="row right">
+                <button id="issueSubmitBtn" class="btn" type="button">Submit</button>
+              </div>
+            </div>
+
+            <div id="issuesList" class="list" aria-live="polite"></div>
+          </div>
+        </section>
 
         <div class="home-actions">
           <button id="goApply" class="btn wide" type="button">Apply for Admin</button>
           <button id="ownerLoginBtn" class="btn wide btn-invert" type="button">Owner Login</button>
         </div>
 
-        <div class="fine muted small">
-          Hosted on GitHub Pages · Data via Firebase Realtime Database
-        </div>
+        <div class="fine muted small">Hosted on GitHub Pages · Firebase Realtime Database</div>
       </div>
     </section>
 
@@ -83,12 +100,9 @@
       <div class="view-inner">
         <div class="page-head">
           <h2 class="page-title">Assignments &amp; Homework</h2>
-          <p class="muted">7 subjects · Status: posted / underwork / none · Completed auto-removes after 3 days.</p>
+          <p class="muted">Subject-wise status: posted / underwork / none · Completed auto-removes after 3 days (best-effort).</p>
         </div>
-
-        <div class="subjects" id="subjectsContainer">
-          <!-- Rendered by app.js -->
-        </div>
+        <div class="subjects" id="subjectsContainer"></div>
       </div>
     </section>
 
@@ -97,23 +111,19 @@
       <div class="view-inner">
         <div class="page-head">
           <h2 class="page-title">Contact with Admin</h2>
-          <p class="muted">
-            Send one private request from this browser session. You can edit it anytime.
-          </p>
+          <p class="muted">Stored privately for this browser ID. You can update it anytime.</p>
         </div>
 
         <div class="panel">
           <div class="panel-head">
             <div>
               <div class="panel-title">New / Update Request</div>
-              <div class="muted small">Stored privately under your browser ID.</div>
+              <div class="muted small">Visible to owner in Admin Panel.</div>
             </div>
           </div>
-
           <div class="panel-body">
             <label class="label" for="contactText">Your message to admin</label>
             <textarea id="contactText" class="input textarea" rows="6" placeholder="Type your request..."></textarea>
-
             <div class="row right">
               <button id="saveContactBtn" class="btn" type="button">Send / Update</button>
             </div>
@@ -124,10 +134,9 @@
           <div class="panel-head">
             <div>
               <div class="panel-title">Your Requests</div>
-              <div class="muted small">What you have submitted (view/edit anytime).</div>
+              <div class="muted small">View what you sent.</div>
             </div>
           </div>
-
           <div class="panel-body">
             <div id="yourRequestBox" class="request-box muted">No request submitted yet.</div>
             <div class="row right">
@@ -143,14 +152,14 @@
       <div class="view-inner">
         <div class="page-head">
           <h2 class="page-title">Apply for Admin</h2>
-          <p class="muted">Fill out the form. Submissions are visible to the owner.</p>
+          <p class="muted">Private: only owner can review. Status shows in your Profile tab in chat.</p>
         </div>
 
         <form id="applyForm" class="panel" autocomplete="off">
           <div class="panel-head">
             <div>
               <div class="panel-title">Application Form</div>
-              <div class="muted small">Please provide correct information.</div>
+              <div class="muted small">Submit once; you can resubmit to update (status returns to pending).</div>
             </div>
           </div>
 
@@ -161,8 +170,8 @@
             </div>
 
             <div>
-              <label class="label" for="rollNumber">Class Roll Number</label>
-              <input id="rollNumber" class="input" type="text" maxlength="20" required />
+              <label class="label" for="rollNumberApply">Class Roll Number</label>
+              <input id="rollNumberApply" class="input" type="text" maxlength="20" required />
             </div>
 
             <div>
@@ -192,14 +201,14 @@
       <div class="view-inner">
         <div class="page-head">
           <h2 class="page-title">Owner Admin Panel</h2>
-          <p class="muted">Manage assignments, view applications, and review contact requests.</p>
+          <p class="muted">Moderate global chat, manage assignments, review applications, and respond to public issues.</p>
         </div>
 
         <div class="owner-bar panel subtle">
           <div class="panel-body owner-bar-body">
             <div class="owner-left">
               <div class="tag owner-tag">OWNER</div>
-              <div class="muted small">Session stored in your browser (localStorage).</div>
+              <div class="muted small">Owner login is front-end only. Use DB rules for real security.</div>
             </div>
             <div class="owner-right">
               <button id="logoutOwnerBtn" class="btn btn-invert" type="button">Logout</button>
@@ -210,6 +219,7 @@
         <div class="tabs">
           <button class="tab active" data-owner-tab="assignments" type="button">Assignments</button>
           <button class="tab" data-owner-tab="applications" type="button">Admin Applications</button>
+          <button class="tab" data-owner-tab="issues" type="button">Public Issues</button>
           <button class="tab" data-owner-tab="contacts" type="button">Contact Requests</button>
         </div>
 
@@ -219,7 +229,7 @@
             <div class="panel-head">
               <div>
                 <div class="panel-title">Assignments Manager</div>
-                <div class="muted small">Add / edit / delete, and mark completed (auto-deletes after 3 days).</div>
+                <div class="muted small">Add / edit / delete, mark completed (auto-delete after 3 days best-effort).</div>
               </div>
               <div class="row">
                 <button id="addAssignmentBtn" class="btn" type="button">Add Assignment</button>
@@ -236,12 +246,27 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <div class="panel-title">Submitted "Apply for Admin" Forms</div>
-                <div class="muted small">Read-only list.</div>
+                <div class="panel-title">Admin Applications (Private)</div>
+                <div class="muted small">Accept / Decline decisions update applicant Profile status.</div>
               </div>
             </div>
             <div class="panel-body">
               <div id="ownerApplicationsList" class="owner-list muted">Loading…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Owner: Public Issues -->
+        <div class="owner-tab" data-owner-tab-panel="issues">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Public Issues (Owner Reply & Like)</div>
+                <div class="muted small">Replies and likes are visible publicly.</div>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div id="ownerIssuesList" class="owner-list muted">Loading…</div>
             </div>
           </div>
         </div>
@@ -251,8 +276,8 @@
           <div class="panel">
             <div class="panel-head">
               <div>
-                <div class="panel-title">Private Contact Requests</div>
-                <div class="muted small">Requests are stored per browser user ID.</div>
+                <div class="panel-title">Contact Requests</div>
+                <div class="muted small">Stored per browser user ID.</div>
               </div>
             </div>
             <div class="panel-body">
@@ -266,14 +291,14 @@
           <div class="panel-head">
             <div>
               <div class="panel-title">Owner Chat Options</div>
-              <div class="muted small">When enabled, your chat messages appear with a golden “Owner” tag.</div>
+              <div class="muted small">Toggle anonymous golden Owner tag (global chat only).</div>
             </div>
           </div>
           <div class="panel-body owner-toggle-row">
             <label class="toggle">
               <input id="ownerAnonToggle" type="checkbox" />
               <span class="toggle-ui" aria-hidden="true"></span>
-              <span class="toggle-text">Send chat as anonymous <span class="gold">Owner</span></span>
+              <span class="toggle-text">Send global chat as anonymous <span class="gold">Owner</span></span>
             </label>
           </div>
         </div>
@@ -285,8 +310,7 @@
   <div id="nameModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="nameTitle">
     <div class="modal-card">
       <h3 id="nameTitle">Set your display name</h3>
-      <p class="muted small">This will be shown in chat and your submissions.</p>
-
+      <p class="muted small">Used for chat and public posts.</p>
       <form id="nameForm" class="modal-form">
         <label class="label" for="nameInput">Display name</label>
         <input id="nameInput" class="input" type="text" maxlength="32" required placeholder="e.g., Rahim" />
@@ -311,7 +335,6 @@
 
       <form id="assignmentForm" class="modal-form">
         <input id="assignmentEditId" type="hidden" />
-
         <div class="form-grid">
           <div>
             <label class="label" for="assignmentSubject">Subject</label>
@@ -336,25 +359,24 @@
 
           <div class="span-2">
             <label class="label" for="assignmentTitle">Title</label>
-            <input id="assignmentTitle" class="input" type="text" maxlength="80" required placeholder="e.g., Chapter 3 — Exercise" />
+            <input id="assignmentTitle" class="input" type="text" maxlength="80" required />
           </div>
 
           <div class="span-2">
             <label class="label" for="assignmentDetails">Details</label>
-            <textarea id="assignmentDetails" class="input textarea" rows="6" maxlength="2000"
-                      placeholder="Write the homework / assignment details..."></textarea>
+            <textarea id="assignmentDetails" class="input textarea" rows="6" maxlength="2000"></textarea>
           </div>
 
           <div class="span-2">
             <label class="toggle">
               <input id="assignmentCompleted" type="checkbox" />
               <span class="toggle-ui" aria-hidden="true"></span>
-              <span class="toggle-text">Completed (green tick stays 3 days then auto-deletes)</span>
+              <span class="toggle-text">Completed (kept 3 days then removed)</span>
             </label>
           </div>
 
           <div class="span-2 row right">
-            <button id="saveAssignmentBtn" class="btn" type="submit">Save</button>
+            <button class="btn" type="submit">Save</button>
           </div>
 
           <div class="span-2 muted small" id="assignmentModalHint"></div>
@@ -363,50 +385,73 @@
     </div>
   </div>
 
-  <!-- Chat Overlay -->
+  <!-- FULLSCREEN CHAT OVERLAY (fixed layout + tabs) -->
   <div id="chatOverlay" class="overlay hidden" aria-hidden="true">
-    <div class="overlay-backdrop" id="chatBackdrop"></div>
+    <div class="chat-shell" role="dialog" aria-modal="true" aria-label="Chat portal">
+      <header class="chat-top">
+        <!-- Required: back arrow strictly top-left -->
+        <button id="chatBackBtn" class="chat-back" type="button" aria-label="Close chat">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
 
-    <aside class="chat-drawer" role="dialog" aria-modal="true" aria-label="Chat">
-      <div class="chat-head">
-        <div>
-          <div class="chat-title">Realtime Chat</div>
-          <div class="muted small">Public room</div>
+        <div class="chat-head-center">
+          <div class="chat-head-title">Chat</div>
+          <div class="muted small" id="chatSubTitle">Global room</div>
+        </div>
+      </header>
+
+      <!-- Tabs: placed right below the top-left back arrow area -->
+      <nav class="chat-tabs" aria-label="Chat tabs">
+        <button class="chat-tab active" data-chat-tab="global" type="button">Global Chat</button>
+        <button class="chat-tab" data-chat-tab="personal" type="button">Personal Chat</button>
+        <button class="chat-tab" data-chat-tab="profile" type="button">Profile</button>
+      </nav>
+
+      <section class="chat-panels">
+        <!-- GLOBAL CHAT -->
+        <div class="chat-panel active" data-chat-panel="global">
+          <div id="globalMessages" class="chat-messages" role="log" aria-live="polite" aria-relevant="additions removals"></div>
+
+          <!-- Sticky compose (must remain at bottom) -->
+          <div class="chat-compose sticky">
+            <input id="globalChatInput" class="input" type="text" maxlength="500" placeholder="Message everyone…" />
+            <button id="globalChatSendBtn" class="btn" type="button">Send</button>
+          </div>
         </div>
 
-        <div class="row">
-          <button id="closeChatBtn" class="icon-btn small" type="button" aria-label="Close chat">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
-            </svg>
-          </button>
+        <!-- PERSONAL CHAT -->
+        <div class="chat-panel" data-chat-panel="personal">
+          <div class="dm-top">
+            <div class="dm-title-row">
+              <div class="dm-title">Inbox</div>
+              <div class="muted small">Friends only</div>
+            </div>
+            <div id="dmFriendsBar" class="dm-friends" aria-label="Friends list"></div>
+          </div>
+
+          <div id="dmThread" class="dm-thread">
+            <div id="dmThreadHeader" class="dm-thread-head muted">Select a friend to start chatting.</div>
+            <div id="dmMessages" class="chat-messages" role="log" aria-live="polite"></div>
+
+            <div class="chat-compose sticky">
+              <input id="dmInput" class="input" type="text" maxlength="600" placeholder="Send a private message…" />
+              <button id="dmSendBtn" class="btn" type="button">Send</button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div class="chat-body">
-        <div id="chatMessages" class="chat-messages" role="log" aria-live="polite" aria-relevant="additions"></div>
-      </div>
-
-      <div class="chat-compose">
-        <input id="chatInput" class="input" type="text" maxlength="500" placeholder="Type a message…" />
-        <button id="chatSendBtn" class="btn" type="button">Send</button>
-      </div>
-
-      <div id="chatOwnerHint" class="chat-owner-hint hidden">
-        <div class="muted small">
-          Owner mode available. Toggle it in <span class="mono">Owner Admin Panel</span>.
+        <!-- PROFILE -->
+        <div class="chat-panel" data-chat-panel="profile">
+          <div id="profilePanel" class="profile-panel">
+            <!-- Rendered by app.js -->
+          </div>
         </div>
-      </div>
-    </aside>
+      </section>
+    </div>
   </div>
 
-  <!-- Firebase Web SDK (ES Modules) -->
-  <script type="module">
-    import "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
-    import "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
-  </script>
-
-  <!-- App -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
