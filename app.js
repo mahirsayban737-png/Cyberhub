@@ -4,13 +4,14 @@
  * ==========================
  */
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY_HERE",
-  authDomain: "PASTE_YOUR_AUTH_DOMAIN_HERE",
-  databaseURL: "PASTE_YOUR_DATABASE_URL_HERE",
-  projectId: "PASTE_YOUR_PROJECT_ID_HERE",
-  storageBucket: "PASTE_YOUR_STORAGE_BUCKET_HERE",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID_HERE",
-  appId: "PASTE_YOUR_APP_ID_HERE",
+  apiKey: "AIzaSyDj26Y-4-3F09e8nU2A5fTfpEstuaJzMIo",
+  authDomain: "cyber-hub-34426.firebaseapp.com",
+  databaseURL: "https://cyber-hub-34426-default-rtdb.firebaseio.com",
+  projectId: "cyber-hub-34426",
+  storageBucket: "cyber-hub-34426.firebasestorage.app",
+  messagingSenderId: "910738985731",
+  appId: "1:910738985731:web:dd347a7cc54dd56f824f36",
+  measurementId: "G-74X78474MF"
 };
 
 // Firebase (Modular SDK via ES Modules CDN)
